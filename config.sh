@@ -1,6 +1,6 @@
 #!/bin/bash
-NAME='Luis Davim'
-EMAIL='luis.davim@smartbox.com'
+NAME='Brian Uniacke'
+EMAIL='brian.uniacke@smartbox.com'
 
 WORKINGCOPIES='$HOME/workingCopies'
 CODE='$HOME/workingCopies/code'
