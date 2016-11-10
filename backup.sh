@@ -1,23 +1,28 @@
 #!/bin/bash
 
-function backupDotFiles (){
+function backupDotFiles() {
   mkdir -p files
   cp $HOME/.config/terminator/terminator.config files/terminator.config
   cp $HOME/.bash/git_prompt.sh files/git_prompt.sh
   cp $HOME/.bash/shell_prompt.sh files/shell_prompt.sh
   cp $HOME/.bashrc files/bashrc
+  cp $HOME/.bash_profile files/bash_profile
+  cp $HOME/.tmux.conf.local files/tmux.conf.local
   cp $HOME/.screenrc files/screenrc
   cp $HOME/.profile files/profile
-  cp $HOME/.vimrc files/vimrc
+  cp $HOME/.vimrc files/vim/vimrc
+  cp $HOME/.vimrc.local files/vim/vimrc.local
+  cp -r $HOME/.vim/ft* files/vim/
   cp $HOME/.atom/*.cson files/atom/
   cp $HOME/.atom/*.coffee files/atom/
   cp $HOME/.atom/*.less files/atom/
   cp $HOME/.atom/*.json files/atom/
   cp $HOME/.git-prompt-colors.sh files/git-prompt-colors.sh
+  cp $HOME/.config/tilda/config_0 files/tilda
   cp /etc/bash_completion.d/docker-enter-completion files/docker-enter-completion
 }
 
-function backupAtomPackages (){
+function backupAtomPackages() {
   apm list --installed --bare | cut -d'@' -f1 | grep -vE '^$' > files/atom-packages.lst
 }
 

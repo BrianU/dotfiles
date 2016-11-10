@@ -2,7 +2,7 @@
 
 PWD=$(pwd)
 
-function installPacakges (){
+function installPacakges() {
   cat files/packages.lst | tr '\n' '  ' | xargs apt-get install -y
   sudo apt-mark manual $(cat files/packages.lst)
 
@@ -14,31 +14,48 @@ function installPacakges (){
   sudo npm install -g azure-cli
 }
 
-function installFonts (){
+function installFonts() {
   mkdir -p $HOME/.fonts/
 
   curl -fLo DroidSansMonoForPowerlinePlusNerdFileTypes.otf https://raw.githubusercontent.com/ryanoasis/nerd-fonts/0.6.0/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20for%20Powerline%20Nerd%20Font%20Complete.otf
   sudo chmod 664 DroidSansMonoForPowerlinePlusNerdFileTypes.otf
   mv *.otf $HOME/.fonts/
-  wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf
+  wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
   sudo mv PowerlineSymbols.otf /usr/share/fonts/
-  sudo fc-cache -vf
+  wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf
   sudo mv 10-powerline-symbols.conf /etc/fonts/conf.d/
+  wget https://github.com/powerline/fonts/raw/master/Terminus/PSF/ter-powerline-v16b.psf.gz
+  sudo mv ter-powerline-v16b.psf.gz /usr/share/consolefonts/
+  if ! [ -d $HOME/.fonts/ubuntu-mono-powerline-ttf ]; then
+    git clone https://github.com/pdf/ubuntu-mono-powerline-ttf.git $HOME/.fonts/ubuntu-mono-powerline-ttf
+  else
+    cd $HOME/.fonts/ubuntu-mono-powerline-ttf
+    git pull
+    cd ${PWD}
+  fi
+  sudo fc-cache -vf
 }
 
-function installDotFiles (){
+function installDotFiles() {
   mkdir -p $HOME/.bash/
 
   cp files/terminator.config $HOME/.config/terminator/
+  cp files/tilda $HOME/.config/tilda/config_0
   if ! [ -s  $HOME/.config/terminator/config ]; then
     ln -s $HOME/.config/terminator/terminator.config $HOME/.config/terminator/config
   fi
   cp files/git_prompt.sh $HOME/.bash/
   cp files/shell_prompt.sh $HOME/.bash/
   cp files/bashrc $HOME/.bashrc
+  cp files/bash_profile $HOME/.bash_profile
   cp files/screenrc $HOME/.screenrc
+  cp files/tmux.conf.local $HOME/.tmux.conf.local
   cp files/profile $HOME/.profile
-  cp files/vimrc $HOME/.vimrc
+  mkdir -p $HOME/.vim/ftdetect
+  mkdir -p $HOME/.vim/ftplugin
+  cp -r files/vim/ft* $HOME/.vim/
+  cp files/vim/vimrc $HOME/.vimrc
+  cp files/vim/vimrc.local $HOME/.vimrc.local
   cp files/atom/* $HOME/.atom/
   cp files/git-prompt-colors.sh $HOME/.git-prompt-colors.sh
   sudo cp files/docker-enter-completion /etc/bash_completion.d/
@@ -66,30 +83,6 @@ function installDotFiles (){
   done
   cat files/gitconfig | sed -e "$sedcmd" > $HOME/.gitconfig
 
-  if [ ! -d  $HOME/.bash/powerline-shell ]; then
-    git clone https://github.com/milkbikis/powerline-shell $HOME/.bash/powerline-shell
-  else
-    cd $HOME/.bash/powerline-shell
-    git pull
-    cd ${PWD}
-  fi
-}
-
-function installAtomPackages (){
-  # Backup package list with:
-  #   apm list --installed --bare | cut -d'@' -f1 | grep -vE '^$' > atom-packages.lst
-  cp files/atom/* $HOME/.atom/
-  apm install --packages-file files/atom-packages.lst
-}
-
-function installVimPlugins (){
-  cp files/vimrc $HOME/.vimrc
-  mkdir -p $HOME/.vim/bundle/
-
-  if [ ! -d  $HOME/.vim/bundle/Vundle.vim ]; then
-    git clone https://github.com/VundleVim/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim
-  fi
-
   if [ ! -d  $HOME/.bash/bash-git-prompt ]; then
     git clone https://github.com/magicmonty/bash-git-prompt.git $HOME/.bash/bash-git-prompt
   else
@@ -98,12 +91,51 @@ function installVimPlugins (){
     cd ${PWD}
   fi
 
+  if [ ! -d  $HOME/.bash/powerline-shell ]; then
+    git clone https://github.com/milkbikis/powerline-shell $HOME/.bash/powerline-shell
+  else
+    cd $HOME/.bash/powerline-shell
+    git pull
+    cd ${PWD}
+  fi
+
+  if [ ! -d  $HOME/.tmux ]; then
+    git clone https://github.com/gpakosz/.tmux.git $HOME/.tmux
+  else
+    cd $HOME/.tmux/
+    git pull
+    cd ${PWD}
+  fi
+  if [ ! -s $HOME/.tmux.conf ]; then
+    ln -s $HOME/.tmux/.tmux.conf $HOME/.tmux.conf
+  fi
+}
+
+function installAtomPackages() {
+  # Backup package list with:
+  #   apm list --installed --bare | cut -d'@' -f1 | grep -vE '^$' > atom-packages.lst
+  cp files/atom/* $HOME/.atom/
+  apm install --packages-file files/atom-packages.lst
+}
+
+function installVimPlugins() {
+  mkdir -p $HOME/.vim/ftdetect
+  mkdir -p $HOME/.vim/ftplugin
+  mkdir -p $HOME/.vim/bundle/
+  cp files/vim/vimrc $HOME/.vimrc
+  cp files/vim/vimrc.local $HOME/.vimrc.local
+  cp -r files/vim/ft* $HOME/.vim/
+
+  if [ ! -d  $HOME/.vim/bundle/Vundle.vim ]; then
+    git clone https://github.com/VundleVim/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim
+  fi
+
   vim +PluginInstall +qall
   cd $HOME/.vim/bundle/YouCompleteMe
   ./install.py
 }
 
-function installAll (){
+function installAll() {
   installPacakges
   installFonts
   installDotFiles

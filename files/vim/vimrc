@@ -7,32 +7,33 @@
   call vundle#begin()
   Plugin 'VundleVim/Vundle.vim'
 
-  "Plugin 'edkolev/promptline.vim'
   Plugin 'tpope/vim-sensible'
+  "Plugin 'edkolev/promptline.vim'
   Plugin 'vim-airline/vim-airline'
   Plugin 'vim-airline/vim-airline-themes'
+  Plugin 'breuckelen/vim-resize'
   "Plugin 'powerline/powerline'
   "Plugin 'tpope/vim-flagship'
   Plugin 'airblade/vim-gitgutter'
   Plugin 'tpope/vim-fugitive'
   Plugin 'gregsexton/gitv'
   Plugin 'junegunn/gv.vim'
-  "Plugin 'miyakogi/conoline.vim'
+  " Plugin 'miyakogi/conoline.vim'
   "Plugin 'mhinz/vim-signify'
   "Plugin 'gcmt/breeze.vim'
   Plugin 'ctrlpvim/ctrlp.vim'
   Plugin 'scrooloose/nerdtree'
-  "Plugin 'majutsushi/tagbar'
   "Plugin 'jlanzarotta/bufexplorer'
+  "Plugin 'majutsushi/tagbar'
   "Plugin 'severin-lemaignan/vim-minimap'
   Plugin 'nelstrom/vim-visual-star-search'
   "Plugin 'Shougo/neocomplete.vim.git'
   "Plugin 'Shougo/neosnippet'
   "Plugin 'Shougo/neosnippet-snippets'
-  "Plugin 'SirVer/ultisnips'
+  " Plugin 'SirVer/ultisnips'
   Plugin 'chrisbra/vim-diff-enhanced'
-  Plugin 'MarcWeber/vim-addon-mw-utils'
-  Plugin 'tomtom/tlib_vim'
+  Plugin 'MarcWeber/vim-addon-mw-utils' "requiered by snipmate
+  Plugin 'tomtom/tlib_vim' "requiered by snipmate
   Plugin 'garbas/vim-snipmate'
   Plugin 'honza/vim-snippets'
   Plugin 'Valloric/YouCompleteMe'
@@ -40,10 +41,9 @@
   "Plugin 'sjl/gundo.vim'
   Plugin 'Yggdroot/indentLine'
   "Plugin 'luochen1990/indent-detector.vim'
-  Plugin 'tpope/vim-sleuth'
+  " Plugin 'tpope/vim-sleuth'
   Plugin 'tpope/vim-surround'
   Plugin 'tpope/vim-repeat'
-  Plugin 'tpope/vim-endwise'
   Plugin 'tomtom/tcomment_vim'
   "Plugin 'scrooloose/nerdcommenter'
   Plugin 'ryanoasis/vim-devicons'
@@ -54,7 +54,8 @@
   "Plugin 'LucHermitte/lh-brackets'
   "Plugin 'alvan/vim-closetag'
   Plugin 'Townk/vim-autoclose'
-  Plugin 'godlygeek/tabular'
+  Plugin 'tpope/vim-endwise'
+  " Plugin 'godlygeek/tabular'
   "Plugin 'neilagabriel/vim-geeknote'
   Plugin 'elzr/vim-json'
   "Plugin 'kopischke/vim-stay'
@@ -62,7 +63,7 @@
   Plugin 'Konfekt/FastFold'
   Plugin 'scrooloose/syntastic'
   Plugin 'luisdavim/pretty-folds'
-  Plugin 'metakirby5/codi.vim'
+  " Plugin 'metakirby5/codi.vim'
   "Plugin 'lilydjwg/colorizer'
   "Plugin 'chriskempson/base16-vim'
   Plugin 'flazz/vim-colorschemes'
@@ -90,7 +91,6 @@
   au ColorScheme * hi Normal ctermbg=none
   au ColorScheme * hi NonText ctermbg=none
   au ColorScheme * hi Folded ctermbg=none
-
 
   set guifont=droid\ sans\ mono\ for\ powerline\ plus\ nerd\ file\ types\ 10
 " }
@@ -163,6 +163,36 @@
     set mouse=a
   endif
 
+  " Enable (better) mouse support under tmux
+  if &term =~ '^screen' && exists('$TMUX')
+    set mouse+=a
+    " tmux knows the extended mouse mode
+    set ttymouse=xterm2
+    " tmux will send xterm-style keys when xterm-keys is on
+    execute "set <xUp>=\e[1;*A"
+    execute "set <xDown>=\e[1;*B"
+    execute "set <xRight>=\e[1;*C"
+    execute "set <xLeft>=\e[1;*D"
+    execute "set <xHome>=\e[1;*H"
+    execute "set <xEnd>=\e[1;*F"
+    execute "set <Insert>=\e[2;*~"
+    execute "set <Delete>=\e[3;*~"
+    execute "set <PageUp>=\e[5;*~"
+    execute "set <PageDown>=\e[6;*~"
+    execute "set <xF1>=\e[1;*P"
+    execute "set <xF2>=\e[1;*Q"
+    execute "set <xF3>=\e[1;*R"
+    execute "set <xF4>=\e[1;*S"
+    execute "set <F5>=\e[15;*~"
+    execute "set <F6>=\e[17;*~"
+    execute "set <F7>=\e[18;*~"
+    execute "set <F8>=\e[19;*~"
+    execute "set <F9>=\e[20;*~"
+    execute "set <F10>=\e[21;*~"
+    execute "set <F11>=\e[23;*~"
+    execute "set <F12>=\e[24;*~"
+  endif
+
   " do not history when leavy buffer
   set hidden
 
@@ -176,6 +206,13 @@
 
 " PluginSettings {
 
+  " vim-resize
+  " let g:vim_resize_disable_auto_mappings = 1
+  " nnoremap <silent> <C-Left> :CmdResizeLeft<cr>
+  " nnoremap <silent> <C-Down> :CmdResizeDown<cr>
+  " nnoremap <silent> <C-Up> :CmdResizeUp<cr>
+  " nnoremap <silent> <C-Right> :CmdResizeRight<cr>
+
   " matchparen
   let g:matchparen_timeout = 2
   let g:matchparen_insert_timeout = 2
@@ -188,19 +225,25 @@
   noremap <C-w>f :SyntasticToggleMode<CR>
 
   " Gundu
-  "let g:gundo_width = 60
-  "let g:gundo_preview_height = 40
-  "let g:gundo_right = 1
+  " let g:gundo_width = 60
+  " let g:gundo_preview_height = 40
+  " let g:gundo_right = 1
 
   " MinMap
   let g:minimap_highlight='Visual'
 
   " IndentLine
+  let g:indentLine_faster = 1
+  if g:indentLine_faster == 0
+   let g:indentLine_leadingSpaceEnabled = 1
+  endif
   let g:vim_json_syntax_conceal = 0
   let g:indentLine_char = '┊'
-  let g:indentLine_leadingSpaceEnabled = 1
   let g:indentLine_leadingSpaceChar = '˰'
   let g:indentLine_noConcealCursor = ""
+
+  " Conoline
+  let g:conoline_auto_enable = 1
 
   " Vim
   let g:indentLine_color_term = 239
@@ -242,15 +285,16 @@
   let g:usemarks = 0
 
   " vim-airline
+  " let g:airline_extensions = ['branch', 'tabline', 'whitespace']
   let g:airline#extensions#tabline#enabled = 1
   let g:airline#extensions#tabline#buffer_min_count = 1
   let g:airline#extensions#tabline#show_buffers = 1
   let g:airline_powerline_fonts = 1
-  "let g:airline_theme='badwolf'
   let g:airline_theme='term'
 " }
 
 " Shortcuts {
+
   " Don't use Ex mode, use Q for formatting
   map Q gq
 
@@ -317,13 +361,13 @@
   nnoremap <S-h> gT
   nnoremap <S-l> gt
 
-  "tab navigation like firefox
-  "nnoremap <C-S-tab> :tabprevious<CR>
-  "nnoremap <C-tab>   :tabnext<CR>
-  "nnoremap <C-t>     :tabnew<CR>
-  "inoremap <C-S-tab> <Esc>:tabprevious<CR>i
-  "inoremap <C-tab>   <Esc>:tabnext<CR>i
-  "inoremap <C-t>     <Esc>:tabnew<CR>
+  " tab navigation like firefox
+  " nnoremap <C-S-tab> :tabprevious<CR>
+  " nnoremap <C-tab>   :tabnext<CR>
+  " nnoremap <C-t>     :tabnew<CR>
+  " inoremap <C-S-tab> <Esc>:tabprevious<CR>i
+  " inoremap <C-tab>   <Esc>:tabnext<CR>i
+  " inoremap <C-t>     <Esc>:tabnew<CR>
 
   " lazy ':'
   map ; :
