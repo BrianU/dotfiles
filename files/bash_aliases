@@ -20,6 +20,10 @@ function chef-cookbooks (){
   cd ${CHEF_COOKBOOKS}/$1
 }
 
+function report (){
+  sudo vi /var/www/smartbox.com/$1/shared/var/report/`ls -lhtr /var/www/smartbox.com/$1/shared/var/report/ | tail -n1 | grep -oP '\d{7,16}$'`
+}
+
 function dockerfiles (){
   cd ${DOCKERFILES}/$1
 }
