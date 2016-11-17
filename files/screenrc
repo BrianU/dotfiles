@@ -51,7 +51,7 @@ hardstatus string "%{gk}[ %{G}%H %{g}][%= %{wk}%?%-Lw%?%{r}(%{W}%n*%f %t%?(%u)%?
 
 # Make the output buffer large for (fast) xterms.
 # termcapinfo xterm* OL=10000
-  termcapinfo xterm* OL=100
+  termcapinfo xterm* OL=10000
 
 # tell screen that xterm can switch to dark background and has function
 # keys.
