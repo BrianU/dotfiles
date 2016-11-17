@@ -6,6 +6,8 @@ alias .....='cd ../../../../'
 alias code='cd $HOME/code'
 alias github='cd $HOME/code/github'
 alias gitlab='cd $HOME/code/gitlab'
+alias demodb='ssh ie1-t-prj-18'
+alias demoweb='ssh ie1-t-prj-16'
 
 alias chef-roles='cd $HOME/code/gitlab/chef/roles'
 alias chef-environments='cd $HOME/code/gitlab/chef/environments'
@@ -157,7 +159,6 @@ function chef-env-compare-versions () {
   json-diff -y ${1}.json ${2}.json ".cookbook_versions"
   cd $cdir
 }
-
 # Promotes a specific version of a cookbook to all environments that have a version of that cookbok pinned to a different version
 # Usage: chef-promot-all <cookbook> <version>
 function chef-promote-all () {
