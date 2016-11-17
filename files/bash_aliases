@@ -3,21 +3,21 @@ alias ..='cd ..'
 alias ...='cd ../../'
 alias ....='cd ../../../'
 alias .....='cd ../../../../'
-alias workingCopies='cd ${WORKINGCOPIES}'
-alias code='cd ${CODE}'
-alias github='cd ${GITHUB}'
-alias gitlab='cd ${GITLAB}'
+alias workingCopies='cd $HOME/workingCopies'
+alias code='cd $HOME/workingCopies/code'
+alias github='cd $HOME/workingCopies/code/github'
+alias gitlab='cd $HOME/workingCopies/code/gitlab'
 
-alias chef-roles='cd ${CHEF_ROLES}'
-alias chef-environments='cd ${CHEF_ENVIRONMENTS}'
-alias chef-handlers='cd ${CHEF_HANDLERS}'
+alias chef-roles='cd $HOME/workingCopies/code/gitlab/chef/roles'
+alias chef-environments='cd $HOME/workingCopies/code/gitlab/chef/environments'
+alias chef-handlers='cd $HOME/workingCopies/code/gitlab/chef/handlers'
 
 function chef-data-bags (){
-  cd ${CHEF_DATA_BAGS}/$1
+  cd $HOME/workingCopies/code/gitlab/chef-data-bags/$1
 }
 
 function chef-cookbooks (){
-  cd ${CHEF_COOKBOOKS}/$1
+  cd $HOME/workingCopies/code/gitlab/chef-cookbooks/$1
 }
 
 function report (){
@@ -25,11 +25,11 @@ function report (){
 }
 
 function dockerfiles (){
-  cd ${DOCKERFILES}/$1
+  cd $HOME/workingCopies/code/gitlab/dockerfiles/$1
 }
 
 function terraformfiles (){
-  cd ${TERRAFORM}/$1
+  cd $HOME/workingCopies/code/gitlab/terraform/$1
 }
 
 # Geeknote alias
