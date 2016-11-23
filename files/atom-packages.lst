@@ -1,9 +1,7 @@
 activate-power-mode
 alias-command
 ansible-snippets
-atom-arc-ui
 atom-beautify
-atom-darker-ui
 atom-fuzzy-grep
 atom-hide-tabs
 atom-shell-commands
@@ -72,7 +70,6 @@ scroll-searcher
 set-syntax
 split-diff
 symbols-tree-view
-term3
 tool-bar
 tool-bar-atom
 tree-view-git-branch

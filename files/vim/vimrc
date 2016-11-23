@@ -9,6 +9,7 @@
 
   Plugin 'tpope/vim-sensible'
   "Plugin 'edkolev/promptline.vim'
+  "Plugin 'edkolev/tmuxline.vim'
   Plugin 'vim-airline/vim-airline'
   Plugin 'vim-airline/vim-airline-themes'
   Plugin 'breuckelen/vim-resize'
@@ -18,7 +19,7 @@
   Plugin 'tpope/vim-fugitive'
   Plugin 'gregsexton/gitv'
   Plugin 'junegunn/gv.vim'
-  " Plugin 'miyakogi/conoline.vim'
+  "Plugin 'miyakogi/conoline.vim'
   "Plugin 'mhinz/vim-signify'
   "Plugin 'gcmt/breeze.vim'
   Plugin 'ctrlpvim/ctrlp.vim'
@@ -37,6 +38,7 @@
   Plugin 'garbas/vim-snipmate'
   Plugin 'honza/vim-snippets'
   Plugin 'Valloric/YouCompleteMe'
+  "Plugin 'davidhalter/jedi-vim.git'
   Plugin 'ervandew/supertab'
   "Plugin 'sjl/gundo.vim'
   Plugin 'Yggdroot/indentLine'
@@ -61,12 +63,13 @@
   "Plugin 'kopischke/vim-stay'
   "Plugin 'kopischke/vim-fetch'
   Plugin 'Konfekt/FastFold'
-  Plugin 'scrooloose/syntastic'
   Plugin 'luisdavim/pretty-folds'
+  Plugin 'scrooloose/syntastic'
   " Plugin 'metakirby5/codi.vim'
   "Plugin 'lilydjwg/colorizer'
   "Plugin 'chriskempson/base16-vim'
   Plugin 'flazz/vim-colorschemes'
+  Plugin 'nginx.vim'
 
   " All of your Plugins must be added before the following line
   call vundle#end()            " required
@@ -83,11 +86,15 @@
   color Tomorrow-Night-Bright
 
   " Overrides
-  "set transparency=15 "only works in macvim
+  " set transparency=15 "only works in macvim
   hi Normal ctermbg=none
   hi NonText ctermbg=none
   hi Folded ctermbg=none
 
+  set fillchars+=vert:│
+  au ColorScheme * hi VertSplit cterm=none ctermfg=Black ctermbg=none
+
+  au ColorScheme * hi FoldColumn ctermbg=none ctermfg=none
   au ColorScheme * hi Normal ctermbg=none
   au ColorScheme * hi NonText ctermbg=none
   au ColorScheme * hi Folded ctermbg=none
@@ -124,6 +131,9 @@
   set showmode
   set smarttab
   set scrolloff=1
+  if !&diff
+    set cursorline
+  endif
 
   set nrformats-=octal
   set shiftround
@@ -134,9 +144,6 @@
   set ttimeout
   set ttimeoutlen=50
   set updatetime=250
-  " if !&diff
-  "   set cursorline
-  " endif
 
   set laststatus=2
   set ruler
@@ -207,15 +214,16 @@
 " PluginSettings {
 
   " vim-resize
-  " let g:vim_resize_disable_auto_mappings = 1
-  " nnoremap <silent> <C-Left> :CmdResizeLeft<cr>
-  " nnoremap <silent> <C-Down> :CmdResizeDown<cr>
-  " nnoremap <silent> <C-Up> :CmdResizeUp<cr>
-  " nnoremap <silent> <C-Right> :CmdResizeRight<cr>
+  let g:vim_resize_disable_auto_mappings = 1
+  nnoremap <silent> <S-Left> :CmdResizeLeft<cr>
+  nnoremap <silent> <S-Down> :CmdResizeDown<cr>
+  nnoremap <silent> <S-Up> :CmdResizeUp<cr>
+  nnoremap <silent> <S-Right> :CmdResizeRight<cr>
 
   " matchparen
   let g:matchparen_timeout = 2
   let g:matchparen_insert_timeout = 2
+
   " GeekNote
   "let g:GeeknoteFormat="markdown"
 
@@ -241,9 +249,13 @@
   let g:indentLine_char = '┊'
   let g:indentLine_leadingSpaceChar = '˰'
   let g:indentLine_noConcealCursor = ""
+  " set conceallevel=1
+  " let g:indentLine_conceallevel=1
 
   " Conoline
-  let g:conoline_auto_enable = 1
+  " if !&diff
+  "   let g:conoline_auto_enable = 1
+  " endif
 
   " Vim
   let g:indentLine_color_term = 239
@@ -341,25 +353,25 @@
   nmap <leader>p "*p
 
   " Undo, Redo (broken)
-  nnoremap <C-z>  :undo<CR>
-  inoremap <C-z>  <Esc>:undo<CR>
-  nnoremap <C-y>  :redo<CR>
-  inoremap <C-y>  <Esc>:redo<CR>
-  nnoremap <F5> :GundoToggle<CR>
+  nnoremap <C-z> :undo<CR>
+  inoremap <C-z> <Esc>:undo<CR>
+  nnoremap <C-y> :redo<CR>
+  inoremap <C-y> <Esc>:redo<CR>
+  nnoremap <F5>  :GundoToggle<CR>
 
   " Tabs
 
   " Tab navigation
-  nnoremap <C-b>  :tabprevious<CR>
-  inoremap <C-b>  <Esc>:tabprevious<CR>i
-  nnoremap <C-n>  :tabnext<CR>
-  inoremap <C-n>  <Esc>:tabnext<CR>i
-  nnoremap <C-t>  :tabnew<CR>
-  inoremap <C-t>  <Esc>:tabnew<CR>i
-  nnoremap <C-k>  :tabclose<CR>
-  inoremap <C-k>  <Esc>:tabclose<CR>i
-  nnoremap <S-h> gT
-  nnoremap <S-l> gt
+  nnoremap <S-PageUp>   :tabprevious<CR>
+  inoremap <S-PageUp>   <Esc>:tabprevious<CR>i
+  nnoremap <S-PageDown> :tabnext<CR>
+  inoremap <S-PageDown> <Esc>:tabnext<CR>i
+  nnoremap <C-t>        :tabnew<CR>
+  inoremap <C-t>        <Esc>:tabnew<CR>i
+  nnoremap <C-k>        :tabclose<CR>
+  inoremap <C-k>        <Esc>:tabclose<CR>i
+  nnoremap <S-h>        gT
+  nnoremap <S-l>        gt
 
   " tab navigation like firefox
   " nnoremap <C-S-tab> :tabprevious<CR>
@@ -379,9 +391,9 @@
   noremap  <Leader>tb :TagbarToggle<CR>
   noremap  <Leader>nt :NERDTreeToggle<CR>
   noremap  <C-\> :NERDTreeToggle<CR>
-  nmap <leader>TB <Plug>ToggleBrackets
-  imap <leader>TB <Plug>ToggleBrackets
-  noremap <leader>co :diffoff!<CR><C-W><C-O>
+  nmap     <leader>TB <Plug>ToggleBrackets
+  imap     <leader>TB <Plug>ToggleBrackets
+  noremap  <leader>co :diffoff!<CR><C-W><C-O>
 
   "  Window management:
   nnoremap <Leader>sv :windo wincmd K<CR>

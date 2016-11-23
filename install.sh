@@ -37,8 +37,16 @@ function installFonts() {
 }
 
 function installDotFiles() {
-  mkdir -p $HOME/.bash/
+  if ! [ -x "$(command -v hh)" ]; then
+    echo 'installing hh!' >&2
+    sudo add-apt-repository ppa:ultradvorka/ppa && sudo apt-get update && sudo apt-get install hh
+  fi
+  if ! [ -x "$(command -v git)" ]; then
+    echo 'installing git!' >&2
+    sudo apt-get install git
+  fi
 
+  mkdir -p $HOME/.bash/
   cp files/terminator.config $HOME/.config/terminator/
   cp files/tilda $HOME/.config/tilda/config_0
   if ! [ -s  $HOME/.config/terminator/config ]; then
@@ -58,7 +66,10 @@ function installDotFiles() {
   cp files/vim/vimrc.local $HOME/.vimrc.local
   cp files/atom/* $HOME/.atom/
   cp files/git-prompt-colors.sh $HOME/.git-prompt-colors.sh
-  sudo cp files/docker-enter-completion /etc/bash_completion.d/
+  sudo cp files/bash_aliases_completion /etc/bash_completion.d/
+  curl -sfLo knife_autocomplete https://raw.githubusercontent.com/wk8/knife-bash-autocomplete/master/knife_autocomplete.sh
+  sudo mv knife_autocomplete /etc/bash_completion.d/
+  sudo chown root:root /etc/bash_completion.d/*
 
   SHELLVARS=$(comm -3 <(compgen -v | sort) <(compgen -e | sort)|grep -v '^_')
   source config.sh
@@ -109,6 +120,18 @@ function installDotFiles() {
   if [ ! -s $HOME/.tmux.conf ]; then
     ln -s $HOME/.tmux/.tmux.conf $HOME/.tmux.conf
   fi
+}
+
+function installFish() {
+  sudo apt-add-repository ppa:fish-shell/release-2
+  sudo apt-get update
+  sudo apt-get install fish
+  curl -sfL https://git.io/fundle-install | fish
+  curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisher
+  curl -L https://github.com/oh-my-fish/oh-my-fish/raw/master/bin/install | fish
+  fisher fzf edc/bass omf/thefuck omf/wttr omf/vundle ansible-completion docker-completion
+  omf install chain
+  fisher teapot
 }
 
 function installAtomPackages() {
