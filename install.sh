@@ -37,6 +37,7 @@ function installFonts() {
 }
 
 function installDotFiles() {
+  echo "Hello Brian I am installing your DotFiles in $HOME "
   if ! [ -x "$(command -v hh)" ]; then
     echo 'installing hh!' >&2
     sudo add-apt-repository ppa:ultradvorka/ppa && sudo apt-get update && sudo apt-get install hh
@@ -45,7 +46,6 @@ function installDotFiles() {
     echo 'installing git!' >&2
     sudo apt-get install git
   fi
-
   mkdir -p $HOME/.bash/
   cp files/terminator.config $HOME/.config/terminator/
   cp files/tilda $HOME/.config/tilda/config_0
@@ -159,13 +159,13 @@ function installVimPlugins() {
 }
 
 function installAll() {
-  installPacakges
-  installFonts
-  installDotFiles
-  installVimPlugins
-  installAtomPackages
+   installPacakges
+#   installFonts
+   installDotFiles
+#   installVimPlugins
+#   installAtomPackages
 }
-
+#
 case "$1" in
   "packages" | "pkgs")
     installPacakges
