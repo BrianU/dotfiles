@@ -1,6 +1,7 @@
 #!/bin/bash
 sudo apt-add-repository \'[arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main\'
 sudo apt-add-repository \'http://www.scootersoftware.com/ bcompare4 non-free\'
+sudo apt-add-repository \'[arch=amd64] https://repo.skype.com/deb stable main\'
 sudo apt-add-repository \'https://atlassian.artifactoryonline.com/atlassian/hipchat-apt-client xenial main\'
 sudo apt-add-repository \'http://ie.archive.ubuntu.com/ubuntu/ xenial main restricted\'
 sudo apt-add-repository \'http://ie.archive.ubuntu.com/ubuntu/ xenial-updates main restricted\'
